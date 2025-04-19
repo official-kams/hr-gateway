@@ -1,0 +1,88 @@
+###########################################################################
+### Application 설정
+###########################################################################
+application:
+
+  cors:
+    allowed-origin:
+    - http://localhost:3000
+
+  frontend:
+    scheme: http
+    host: loaclhost
+    port: 3000
+  gateway: http://localhost:9090
+
+###########################################################################
+### server 설정
+###########################################################################
+server:
+  port: 9090
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: true
+        same-site: lax
+  error:
+    whitelabel:
+      enabled: false
+
+###########################################################################
+### Spring 설정
+###########################################################################
+spring:
+  application:
+    root: gateway
+    name: gateway
+
+  ### Redis 설정 ###
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+  ### Cloud 설정 ###
+  webflux:
+    base-path:
+  cloud:
+    gateway:
+      filter:
+        retry:
+          enabled: false
+
+  ### Datasource 설정 ###
+  r2dbc:
+    url: ENC(EXwHu4N34pcK1joflCQB8hB7KA0xYrzVVEkTFMJRwwqByd3yQb+fkNjH/XvCTksH2Lq8DCkRj7oec/m9R/g6DzPBOiVmqn6ChN8XW95j7jE=)
+    username: ENC(tEPM/lQ7Yyb6nlgwGGqm8J/sep59fCrz4QY7OFxxfFha+fEto9FKxd9re6Kgcm0c)
+    password: ENC(9CZlLNPGHmdFBJ9/wNF2/bB7TeLYG+UYIpbhYJoYFj5eZkm+RTDUGC8O7mrrbNur)
+
+  security:
+    access:
+      nologin:
+        - /auth/login
+        - /auth/refresh
+
+###########################################################################
+### Router data 설정
+###########################################################################
+routers:
+  defaults:
+    template:
+      context: template
+      scheme: http
+      host: localhost
+      port: 8080
+
+###########################################################################
+### Jasypt 설정
+###########################################################################
+jasypt:
+  encryptor:
+    password: ${ENCRYPTOR_PROFILE}
+
+###########################################################################
+### jwt 설정
+###########################################################################
+jwt:
+  secretkey: ENC(LP0CUSCO7l/xO2epwU7Sc/vAdE0j3BWcrrh4BzYVI9fCGdQDYvjTJyF2yxqM5gw+StUaEmbLfpg2yRIfwiZbF+eYTTQWhmgngljRxNybEiU=)
