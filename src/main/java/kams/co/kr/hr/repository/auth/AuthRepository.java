@@ -8,9 +8,9 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface AuthRepository extends GatewayReactiveCrudRepository<UserDetail, Long> {
 
-    Mono<UserDetail> findByUserId(String userId);
+    Mono<UserDetail> findByUserEmail(String userEmail);
 
     Mono<UserDetail> findByUserCode(String userCode);
 
-    Mono<Boolean> existsByUserId(String userId);
+    Mono<Boolean> existsByUserEmail(String userEmail);
 }

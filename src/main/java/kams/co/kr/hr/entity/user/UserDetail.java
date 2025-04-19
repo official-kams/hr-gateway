@@ -18,13 +18,15 @@ public class UserDetail {
 
     private String userCode;
 
-    private String userId;
+    private String userEmail;
 
     private String userPw;
 
-    private String userEmail;
-
     private String userName;
 
+    private String phoneNumber;
+
     private String roleGroup;
+
+    private String approvalStatus;
 }

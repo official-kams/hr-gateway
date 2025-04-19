@@ -38,9 +38,9 @@ public class AuthController {
     }
 
     // 아이디 중복 확인
-    @PostMapping("/existsUserId")
-    public Mono<Boolean> existsUserId(@RequestBody RegisterExistsId registerExistsId) {
-        return authService.existsUserId(registerExistsId.getUserId());
+    @PostMapping("/existsUserEmail")
+    public Mono<Boolean> existsUserEmail(@RequestBody RegisterExistsId registerExistsId) {
+        return authService.existsUserEmail(registerExistsId.getUserEmail());
     }
 
     // 로그인
@@ -85,8 +85,9 @@ public class AuthController {
 
     // 로그아웃
     @PostMapping("/logout")
-    public void logout(@RequestBody String userId) {
-        refreshTokenService.deleteRefreshToken(userId);
+    public void logout(@RequestBody RefreshAccessTokenRequest refreshAccessTokenRequest) {
+        String userCode = authService.getClaimsUserCode(refreshAccessTokenRequest.getAccessToken());
+        refreshTokenService.deleteRefreshToken(userCode);
     }
 
 }

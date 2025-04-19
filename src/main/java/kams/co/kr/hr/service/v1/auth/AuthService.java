@@ -36,10 +36,10 @@ public class AuthService {
 
         UserDetail userDetail = UserDetail.builder()
                 .userCode(userCode)
-                .userId(registerRequest.getUserId())
-                .userPw(encodePassword(registerRequest.getUserPassword()))
                 .userEmail(registerRequest.getUserEmail())
+                .userPw(encodePassword(registerRequest.getUserPassword()))
                 .userName(registerRequest.getUserName())
+                .phoneNumber(registerRequest.getPhoneNumber())
                 .build();
 
         return authRepository.insert(userDetail).then();
@@ -52,7 +52,7 @@ public class AuthService {
 
     // 로그인
     public Mono<AuthResponse> login(LoginRequest loginRequest) {
-        return userDetails(loginRequest.getUserId())
+        return userDetails(loginRequest.getUserEmail())
                 .flatMap(user -> handleLogin(user, loginRequest.getPassword()))
                 .switchIfEmpty(Mono.just(AuthResponse.getLoginFail()));
     }
@@ -80,9 +80,9 @@ public class AuthService {
                 });
     }
 
-    // userId를 이용해서 DB 조회
-    public Mono<UserDetail> userDetails(String userId) {
-        return authRepository.findByUserId(userId);
+    // userEmail를 이용해서 DB 조회
+    public Mono<UserDetail> userDetails(String userEmail) {
+        return authRepository.findByUserEmail(userEmail);
     }
 
     public Mono<UserDetail> userDetailsFindByUserCode(String userCode) {
@@ -94,9 +94,9 @@ public class AuthService {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
-    // userId 중복 확인
-    public Mono<Boolean> existsUserId(String userId) {
-        return authRepository.existsByUserId(userId);
+    // userEmail 중복 확인
+    public Mono<Boolean> existsUserEmail(String userEmail) {
+        return authRepository.existsByUserEmail(userEmail);
     }
 
     public LoginStatus getSession(String token) {
